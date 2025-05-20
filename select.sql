@@ -14,26 +14,8 @@ CREATE Table students(
 
 INSERT INTO students (first_name, last_name, age, grade, course, email, dob, blood_group, country)
 VALUES
-('Alice', 'Smith', 20, 'A', 'Mathematics', 'alice.smith@example.com', '2005-03-12', 'A+', 'USA'),
-('Bob', 'Johnson', 21, 'B', 'Physics', 'bob.johnson@example.com', '2004-06-25', 'B+', 'Canada'),
-('Charlie', 'Williams', 22, 'A', 'Chemistry', 'charlie.w@example.com', '2003-02-15', 'O-', 'UK'),
-('Diana', 'Brown', 19, 'C', 'Biology', 'diana.brown@example.com', '2006-11-30', 'AB+', 'Australia'),
-('Ethan', 'Jones', 20, 'A', 'Computer Science', 'ethan.jones@example.com', '2005-05-20', 'O+', 'India'),
-('Fiona', 'Garcia', 23, 'B', 'History', 'fiona.garcia@example.com', '2002-09-09', 'B-', 'USA'),
-('George', 'Martinez', 21, 'C', 'Economics', 'george.m@example.com', '2004-07-07', 'A-', 'Mexico'),
-('Hannah', 'Rodriguez', 20, 'A', 'Philosophy', 'hannah.rod@example.com', '2005-04-01', 'AB-', 'Spain'),
-('Ian', 'Lee', 19, 'B', 'Statistics', 'ian.lee@example.com', '2006-08-15', 'B+', 'South Korea'),
-('Julia', 'Walker', 22, 'A', 'Political Science', 'julia.walker@example.com', '2003-12-12', 'A+', 'UK'),
-('Kevin', 'Hall', 20, 'A', 'Engineering', 'kevin.hall@example.com', '2005-03-18', 'O-', 'USA'),
-('Laura', 'Allen', 21, 'B', 'Medicine', 'laura.allen@example.com', '2004-06-06', 'B+', 'Canada'),
-('Mike', 'Young', 22, 'C', 'Architecture', 'mike.young@example.com', '2003-01-01', 'A+', 'Germany'),
-('Nina', 'Hernandez', 20, 'A', 'Law', 'nina.h@example.com', '2005-10-10', 'O+', 'Brazil'),
-('Oscar', 'King', 19, 'B', 'Music', 'oscar.king@example.com', '2006-07-07', 'AB+', 'USA'),
-('Paula', 'Wright', 21, 'A', 'Art', 'paula.wright@example.com', '2004-04-04', 'B-', 'France'),
-('Quentin', 'Lopez', 23, 'C', 'Design', 'quentin.lopez@example.com', '2002-05-05', 'O-', 'Italy'),
-('Rachel', 'Hill', 22, 'B', 'Psychology', 'rachel.hill@example.com', '2003-03-03', 'A+', 'India'),
-('Sam', 'Scott', 20, 'A', 'Geography', 'sam.scott@example.com', '2005-02-02', 'AB-', 'Australia'),
-('Tina', 'Green', 21, 'B', 'Sociology', 'tina.green@example.com', '2004-09-09', 'B+', 'New Zealand');
+('Zaea', 'Scott', 20, 'A', 'Geography', NULL, '2005-02-02', 'AB-', 'Australia'),
+('Moyna', 'Green', 21, 'B', 'Sociology', NULL, '2004-09-09', 'B+', 'New Zealand');
 
 -- delete table...
 DROP Table students;
@@ -44,7 +26,7 @@ SELECT * FROM students;
 -- show email,age column only ...
 SELECT  email, age, blood_group FROM students;
 
--- show email in different name student_email.
+--(change column name) show email in different name student_email.
 SELECT email as "Student Email" FROM students;
 SELECT email as student_email FROM students;
 
@@ -120,4 +102,85 @@ SELECT * from students
 WHERE NOT country = 'UK';
 
 
--- 
+-- Null value find..
+SELECT * from students 
+WHERE email IS NULL;
+
+SELECT * from students 
+WHERE email IS NOT NULL;
+
+
+-- set default null filed value....use ____COALESCE()
+
+-- when email not provided then work COALESCE VALUES..
+SELECT COALESCE(email, 'Email Not Provided.') FROM students;
+
+
+-- IN, BETWEEN,LIKE and ILIKE operator.
+
+-- when need to multiple OR we use to IN ...
+SELECT * FROM students
+WHERE country ='UK' OR country = 'Canada' OR country='USA';
+-- example
+SELECT * FROM students
+WHERE country In('UK','Canada','USA');
+
+-- select those student age is 19 to 21.
+SELECT * FROM students
+     WHERE age BETWEEN 19 and 21;
+
+
+SELECT * FROM students
+     WHERE dob BETWEEN '2004-01-01' and '2005-01-01' ORDER BY dob;
+
+-- using like operator..
+SELECT * FROM students
+WHERE first_name LIKE 'R%';
+SELECT * FROM students
+WHERE first_name LIKE '%na';
+
+SELECT * FROM students
+WHERE last_name LIKE '__a_';
+
+-- ILIKE operator....
+SELECT * FROM students
+WHERE first_name ILIKE 'r%';
+
+
+
+-- Limit and Offset....
+-- example of limit...
+SELECT * from students LIMIT 5;
+SELECT * FROM students
+WHERE country In('UK','Canada','USA') LIMIT 2;
+
+
+-- offset ... show data 6 to 10
+SELECT * FROM students LIMIT 5 OFFSET 5;
+-- show data 3 to 7
+SELECT * FROM students LIMIT 5 OFFSET 2;
+
+-- pagination using limit and offset...
+SELECT * FROM students LIMIT 10 OFFSET 10 * 0;
+SELECT * FROM students LIMIT 10 OFFSET 10 * 1;
+SELECT * FROM students LIMIT 10 OFFSET 10 * 2;
+
+-- delete data......
+SELECT * FROM students;
+
+DELETE FROM students
+WHERE grade='B' AND country='USA';
+DELETE FROM students
+WHERE grade='B';
+
+
+-- update....
+UPDATE students
+ set email ='sam@gmail.com'
+ WHERE student_id = 22;
+
+ UPDATE students
+ set email ='zaea@gmail.com', age=24
+ WHERE student_id = 24;
+
+   
