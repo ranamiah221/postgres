@@ -27,3 +27,4 @@ CROSS JOIN departments;
 -- NUTURAL JOIN..
 SELECT * from employees 
 NATURAL JOIN departments;
+
